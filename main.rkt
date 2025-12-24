@@ -649,7 +649,7 @@
                   logics
                   lets
                   letrecs
-                  ;; ; letstars
+                  letstars
                   conds
                   ))
 
