@@ -90,6 +90,7 @@
     (test "((lambda l l) 1 2 3)" '("(1 2 3)"))
     (test "((lambda (x . r) r) 1 2 3)" '("(2 3)"))
     (test "((lambda (x y . r) r) 1 2 3)" '("(3)"))
+    (test "((lambda (x) ((lambda () ((lambda () x))))) 1)" '("1"))
     (test "((lambda () (values 1 2 3) 3))" '("3"))
     (test "((lambda () (values) (cons 1 2) 3))" '("3"))
     (test "((lambda () (define a 1) (define b 2) (define c 3) (define d 4) (define e 5) (define f 6) (cons 1 2) (cons 3 '())))" '("(3)"))
