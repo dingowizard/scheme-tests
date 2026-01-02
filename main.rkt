@@ -64,6 +64,18 @@
 
 (struct section (title tests))
 
+(define base-type-predicates
+  (section
+   "Base Type Predicates"
+   (list
+    (test "(number? 1)" '("#t"))
+    (test "(number? 1e2)" '("#t"))
+    (test "(number? 1.101)" '("#t"))
+    (test "(number? #\\t)" '("#f"))
+    (test "(number? 'foo)" '("#f"))
+    (test "(number? #t)" '("#f"))
+    (test "(procedure? (lambda (x) x))" '("#t"))
+    (test "(procedure? 'foo)" '("#f")))))
 ;;
 (define constants
   (section
@@ -627,7 +639,8 @@
                             (first procs)
                             (second procs)
                             (third procs))))
-            (list constants
+            (list base-type-predicates
+                  constants
                   ifs
                   lambdas
                   top-level-definitions
