@@ -74,6 +74,14 @@
     (test "(number? #\\t)" '("#f"))
     (test "(number? 'foo)" '("#f"))
     (test "(number? #t)" '("#f"))
+    (test "(char? #\\a)" '("#t"))
+    (test "(char? 'a)" '("#f"))
+    (test "(char? #t)" '("#f"))
+    (test "(char? \"hello\")" '("#f"))
+    (test "(string? \"hello\")" '("#t"))
+    (test "(string? #\\a)" '("#f"))
+    (test "(string? 'a)" '("#f"))
+    (test "(string? #t)" '("#f"))
     (test "(procedure? (lambda (x) x))" '("#t"))
     (test "(procedure? 'foo)" '("#f")))))
 ;;
@@ -254,8 +262,8 @@
       (test "(define-syntax or2
                     (syntax-rules ()
                       ((or a b) (let ((x a)) (if x x b)))))" '())
-       (test "((lambda (x) (or2 #f x)) #t)" '("#t")))
-      (list)))))
+      (test "((lambda (x) (or2 #f x)) #t)" '("#t")))
+     (list)))))
 
 (define dynamic-winds
   (section
@@ -360,8 +368,8 @@
                                  (lambda () (set! xs (cons 'out4 xs)))))
                     (lambda () (set! xs (cons 'out3 xs))))" '("wow"))
       (test "xs" '("(out1 out2 in2 in1 out3 out4 in4 in3 out1 out2 in2 in1)")))
-     (list "(define k)" "(define xs)"))
-    )))
+     (list "(define k)" "(define xs)")))))
+
 
 (define arithmetic
   (section
@@ -665,8 +673,8 @@
                   lets
                   letrecs
                   letstars
-                  conds
-                  ))
+                  conds))
+
 
   (displayln (format "Time to load scheme: ~a" load-time))
   (if (not (= total-failed 0))
