@@ -427,7 +427,12 @@
     (test "(and 1)" '("1"))
     (test "(and 1 2)" '("2"))
     (test "(and 1 #f)" '("#f"))
-    (test "(and 1 2 #f)" '("#f")))))
+    (test "(and 1 2 #f)" '("#f"))
+    (test "(boolean=? #t #t)" '("#t"))
+    (test "(boolean=? #f #f)" '("#t"))
+    (test "(boolean=? #t #f)" '("#f"))
+    (test "(boolean=? #t #t #t #t #t #f #t)" '("#f"))
+    (test "(boolean=? #f #f #f #f #f #f #f)" '("#t")))))
 
 (define lets
   (section
