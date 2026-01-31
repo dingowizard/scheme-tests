@@ -248,7 +248,11 @@
     (test "(condition? 1)" '("#f"))
     (test "(condition? (condition))" '("#t"))
     (test "(condition? (make-message-condition \"hello\"))" '("#t"))
-    (test "(condition? (condition (make-message-condition \"hello\") (make-message-condition \"goodbye\")))" '("#t")))))
+    (test "(condition? (condition (make-message-condition \"hello\") (make-message-condition \"goodbye\")))" '("#t"))
+    (test "(condition-message (make-message-condition \"hello\"))" '("\"hello\""))
+    (test "(condition-message (condition (make-message-condition \"hello\")))" '("\"hello\""))
+    (test "(message-condition? (make-message-condition \"hello\"))" '("#t"))
+    (test "(message-condition? (condition (make-message-condition \"hello\")))" '("#t")))))
 
 (define define-syntaxes
   (section
