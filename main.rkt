@@ -241,6 +241,15 @@
            "(define point-x)"
            "(define point-y)")))))
 
+(define conditions
+  (section
+   "Conditions"
+   (list
+    (test "(condition? 1)" '("#f"))
+    (test "(condition? (condition))" '("#t"))
+    (test "(condition? (make-message-condition \"hello\"))" '("#t"))
+    (test "(condition? (condition (make-message-condition \"hello\") (make-message-condition \"goodbye\")))" '("#t")))))
+
 (define define-syntaxes
   (section
    "Define-syntax forms"
@@ -680,6 +689,7 @@
                   quasiquotes
                   arithmetic
                   records
+                  conditions
                   define-syntaxes
                   hygienic-macros
                   logics
