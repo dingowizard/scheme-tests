@@ -159,12 +159,15 @@
     (test "(apply + '(1 2 3 4))" '("10"))
     (test "(apply - '(10 5 2))" '("3"))
     (test "(apply (lambda (a b) (cons a (cons b '()))) '(1 2))" '("(1 2)"))
+; IronScheme chokes on:
     (test-seq
      (list
       (test "(define k #f)" '())
       (test "(+ 1 (call/cc (lambda (cc) (set! k cc) 2)) 3)" '("6"))
       (test "(apply k '(3))" '("7")))
      (list "(define k (if #f #f))")))))
+    ;;  end IronScheme chokes on
+    
 
 (define begins
   (section
@@ -312,6 +315,7 @@
                      (lambda () 2)
                      (lambda () #t))
                    3)" '("6"))
+; IronScheme chokes:
     (test-seq
      (list
       (test "(define k #f)" '())
@@ -382,6 +386,8 @@
                     (lambda () (set! xs (cons 'out3 xs))))" '("wow"))
       (test "xs" '("(out1 out2 in2 in1 out3 out4 in4 in3 out1 out2 in2 in1)")))
      (list "(define k)" "(define xs)")))))
+    ;;  end IronScheme chokes
+    
 
 
 (define arithmetic
@@ -401,10 +407,12 @@
     (test "(= 1)" '("#t"))
     (test "(= 1 1)" '("#t"))
     (test "(= 1.1 1.1)" '("#t"))
+    ; IronScheme chokes
     (test "(> 3)" '("#t"))
     (test "(> 3 2 1)" '("#t"))
     (test "(> 2 2 1)" '("#f"))
     (test "(> 1 1 2)" '("#f"))
+    ;; end IronScheme chokes
     (test "(max 3 2 1)" '("3"))
     (test "(max -1 -2 -3)" '("-1"))
     (test "(max 1 2 3)" '("3"))
@@ -413,11 +421,13 @@
     (test "(min -1 -2 -3)" '("-3"))
     (test "(min 1 2 3)" '("1"))
     (test "(min 1)" '("1"))
+    ; IronScheme chokes on:
     (test "(< 3)" '("#t"))
     (test "(< 3 2 1)" '("#f"))
     (test "(< 1 1 2)" '("#f"))
     (test "(< 1 2 2)" '("#f"))
     (test "(< 1 2 3)" '("#t"))
+    ;; end IronScheme chokes on:
     (test "(= 1 1)" '("#t"))
     (test "(= 1.1 1.2)" '("#f"))
     (test "(= 1 1 1 1 1)" '("#t"))
@@ -555,7 +565,7 @@
     (test "(append '(1 2 3) '(4 5 6))" '("(1 2 3 4 5 6)"))
     (test "(append '(1 2 3) '(4 5) 6)" '("(1 2 3 4 5 . 6)"))
     (test "(list? '(a b c))" '("#t"))
-    (test "(list? 'a))" '("#f"))
+    (test "(list? 'a)" '("#f"))
     (test "(list? (cons 'a 'b))" '("#f")))))
 
 (define quasiquotes
@@ -684,7 +694,9 @@
                   local-setbangs
                   begins
                   calls-w-values
+                  ; IronScheme chokes:
                   calls/cc
+                  ;; end IronScheme chokes
                   dynamic-winds
                   pairs
                   lists
