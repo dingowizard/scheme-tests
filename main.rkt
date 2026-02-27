@@ -142,7 +142,12 @@
           '("(3)"))
     (test "(call-with-values
                   (lambda () (values 1 2))
-                  (lambda (a b) (cons a (cons b '()))))" '("(1 2)")))))
+                  (lambda (a b) (cons a (cons b '()))))" '("(1 2)"))
+    (test "(call-with-values
+                  (lambda () (div-and-mod 32 5))
+                  (lambda (a b) (+ a b)))"
+          '("8")))))
+
 (define quotes
   (section
    "Quotation"
