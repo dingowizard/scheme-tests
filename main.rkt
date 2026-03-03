@@ -142,7 +142,16 @@
           '("(3)"))
     (test "(call-with-values
                   (lambda () (values 1 2))
-                  (lambda (a b) (cons a (cons b '()))))" '("(1 2)"))
+                  (lambda (a b) (cons a (cons b '()))))"
+          '("(1 2)"))
+    (test "(call-with-values
+                  (lambda () ((lambda () (values 1 2))))
+                  (lambda (a b) (+ a b)))"
+          '("3"))
+    (test "(call-with-values
+                  (lambda () ((lambda () (if #t (values 1 2) 0))))
+                  (lambda (a b) (+ a b)))"
+          '("3"))
     (test "(call-with-values
                   (lambda () (div-and-mod 32 5))
                   (lambda (a b) (+ a b)))"
@@ -305,6 +314,21 @@
           '("(4 5 6)"))
     ;; NOTE: the below test has an unspecified result, because the order of operand evaluation (in particular for the call to cons) is unspecified
     ;; (test "((lambda (a) (cons (dynamic-wind (lambda () (set! a (+ 1 a))) (lambda () a) (lambda () (set! a (+ 1 a)))) a)) 0)" '("(1 . 2)"))
+    (test " (define b (dynamic-wind
+                             (lambda () 0)
+                             (lambda () 1)
+                             (lambda () 2)))
+                   b)"
+          '("1"))
+    (test "((lambda (a)
+                   (define b
+                           (dynamic-wind
+                             (lambda () (set! a (+ 1 a)))
+                             (lambda () a)
+                             (lambda () (set! a (+ 1 a)))))
+                   b)
+                  0)"
+          '("1"))
     (test "((lambda (a)
                    (define b
                            (dynamic-wind
@@ -320,7 +344,7 @@
                      (lambda () 2)
                      (lambda () #t))
                    3)" '("6"))
-; IronScheme chokes:
+;; ; IronScheme chokes:
     (test-seq
      (list
       (test "(define k #f)" '())
@@ -391,7 +415,7 @@
                     (lambda () (set! xs (cons 'out3 xs))))" '("wow"))
       (test "xs" '("(out1 out2 in2 in1 out3 out4 in4 in3 out1 out2 in2 in1)")))
      (list "(define k)" "(define xs)")))))
-    ;;  end IronScheme chokes
+;;     ;;  end IronScheme chokes
     
 
 
