@@ -312,6 +312,8 @@
                       (lambda () (values 7 8 9))))
                   (lambda l l))"
           '("(4 5 6)"))
+    (test "(call-with-values (lambda () (dynamic-wind (lambda () 0) (lambda () (values 1 2)) (lambda () 2))) (lambda (a b) (+ a b)))"
+          '("3"))
     ;; NOTE: the below test has an unspecified result, because the order of operand evaluation (in particular for the call to cons) is unspecified
     ;; (test "((lambda (a) (cons (dynamic-wind (lambda () (set! a (+ 1 a))) (lambda () a) (lambda () (set! a (+ 1 a)))) a)) 0)" '("(1 . 2)"))
     (test " (define b (dynamic-wind
