@@ -68,16 +68,31 @@
   (section
    "Base Type Predicates"
    (list
+    (test "(boolean? 1)" '("#f"))
+    (test "(boolean? \"true\")" '("#f"))
+    (test "(boolean? #f)" '("#t"))
+    (test "(boolean? #t)" '("#t"))
+    (test "(symbol? 1)" '("#f"))
+    (test "(symbol? \"true\")" '("#f"))
+    (test "(symbol? 'symbol)" '("#t"))
+    (test "(char? #\\a)" '("#t"))
+    (test "(char? 'a)" '("#f"))
+    (test "(char? #t)" '("#f"))
+    (test "(char? \"hello\")" '("#f"))
+    (test "(vector? (vector 1 2 3))" '("#t"))
+    (test "(vector? (list 1 2 3))" '("#f"))
+    ;; null? is tested in the lists' tests elsewhere
+    (test "(pair? (list 1 2 3))" '("#t"))
+    (test "(pair? (list))" '("#f"))
+    (test "(pair? (cons 1 2))" '("#t"))
+    (test "(pair? (vector 1 2))" '("#f"))
+    (test "(pair? 1)" '("#f"))
     (test "(number? 1)" '("#t"))
     (test "(number? 1e2)" '("#t"))
     (test "(number? 1.101)" '("#t"))
     (test "(number? #\\t)" '("#f"))
     (test "(number? 'foo)" '("#f"))
     (test "(number? #t)" '("#f"))
-    (test "(char? #\\a)" '("#t"))
-    (test "(char? 'a)" '("#f"))
-    (test "(char? #t)" '("#f"))
-    (test "(char? \"hello\")" '("#f"))
     (test "(string? \"hello\")" '("#t"))
     (test "(string? #\\a)" '("#f"))
     (test "(string? 'a)" '("#f"))
@@ -132,6 +147,7 @@
    (list
     (test "(call-with-values (lambda () (values 1 2 3)) +)"
           '("6"))
+    (test "(call-with-values (lambda () (values)) (lambda () 'boop))" '("boop"))
     (test "(call-with-values
                   (lambda () (values 1 2 3))
                   (lambda (a . rest) rest))"
@@ -545,7 +561,13 @@
       (test "a" '())
       (test "(set! a 1)" '())
       (test "a" '("1")))
-     (list "(set! a (if #f #f))")))))
+     (list "(set! a (if #f #f))"))
+    (test-seq
+     (list
+      (test "(define e? (lambda (n) (if (zero? n) #t (o? (- n 1)))))" '())
+      (test "(define o? (lambda (n) (if (zero? n) #f (e? (- n 1)))))" '())
+      (test "(o? 17)" '("#t")))
+     (list "(define o?)" "(define e?)")))))
 
 (define local-setbangs
   (section
@@ -642,6 +664,29 @@
                     (lambda (x y z) (+ x (* y z))))" '("7"))
       (test "(k 3 4 5)" '("23")))
      (list "(define k (if #f #f))")))))
+
+(define maths
+  (section
+   "Math procedures"
+   (list
+    (test "(call-with-values (lambda () (div-and-mod -32 7)) (lambda (a b) (cons a b)))" '("(-5 . 3)"))
+    (test "(call-with-values (lambda () (div0-and-mod0 -32 7)) (lambda (a b) (cons a b)))" '("(-5 . 3)"))
+    (test "(call-with-values (lambda () (div-and-mod 32 -7)) (lambda (a b) (cons a b)))" '("(-4 . 4)"))
+    (test "(call-with-values (lambda () (div0-and-mod0 32 -7)) (lambda (a b) (cons a b)))" '("(-5 . -3)"))
+    (test "(zero? 1)" '("#f"))
+    (test "(zero? 0)" '("#t"))
+    (test "(positive? 0)" '("#f"))
+    (test "(positive? 1)" '("#t"))
+    (test "(positive? -1)" '("#f"))
+    (test "(negative? 1)" '("#f"))
+    (test "(negative? 0)" '("#f"))
+    (test "(negative? -1)" '("#t"))
+    (test "(odd? 1)" '("#t"))
+    (test "(odd? 0)" '("#f"))
+    (test "(odd? -1)" '("#t"))
+    (test "(even? 111)" '("#f"))
+    (test "(even? 10112)" '("#t"))
+    (test "(even? 0)" '("#t")))))
 
 ; TODO: tests for do
 ; TODO: tests for when
@@ -743,7 +788,8 @@
                   lets
                   letrecs
                   letstars
-                  conds))
+                  conds
+                  maths))
 
 
   (displayln (format "Time to load scheme: ~a" load-time))
