@@ -665,6 +665,7 @@
       (test "(k 3 4 5)" '("23")))
      (list "(define k (if #f #f))")))))
 
+; TODO: figure out what is maths and what is arithmetic and why
 (define maths
   (section
    "Math procedures"
