@@ -666,6 +666,7 @@
      (list "(define k (if #f #f))")))))
 
 ; TODO: figure out what is maths and what is arithmetic and why
+; or maybe reorganize tests to follow the spec
 (define maths
   (section
    "Math procedures"
@@ -687,7 +688,8 @@
     (test "(odd? -1)" '("#t"))
     (test "(even? 111)" '("#f"))
     (test "(even? 10112)" '("#t"))
-    (test "(even? 0)" '("#t")))))
+    (test "(even? 0)" '("#t"))
+    (test "(= 2 (round (* (sqrt 2) (sqrt 2))))" '("#t")))))
 
 ; TODO: tests for do
 ; TODO: tests for when
