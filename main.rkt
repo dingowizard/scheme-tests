@@ -689,7 +689,24 @@
     (test "(even? 111)" '("#f"))
     (test "(even? 10112)" '("#t"))
     (test "(even? 0)" '("#t"))
-    (test "(= 2 (round (* (sqrt 2) (sqrt 2))))" '("#t")))))
+    (test "(abs -1)" '("1"))
+    (test "(abs 2)" '("2"))
+    (test "(abs -1.1)" '("1.1"))
+    (test "(abs 2.2)" '("2.2"))
+    (test "(= 2 (round (* (sqrt 2) (sqrt 2))))" '("#t"))
+    (test "(expt 2 10)" '("1024"))
+    (test "(= 5.0 (floor 5.2))" '("#t")) ; NOTE: tests of round and truncate are like this to avoid testing how printer formats floats
+    (test "(= -6.0 (floor -5.2))" '("#t"))
+    (test "(= 6.0 (ceiling 5.2))" '("#t"))
+    (test "(= -5.0 (ceiling -5.2))" '("#t"))
+    (test "(= (round 5.5) 6.0)" '("#t"))
+    (test "(= (round 5.49) 5.0)" '("#t"))
+    (test "(= (round -5.5) -6.0)" '("#t"))
+    (test "(= (round -5.49) -5.0)" '("#t"))
+    (test "(= (truncate 5.5) 5.0)" '("#t")) 
+    (test "(= (truncate 5.49) 5.0)" '("#t"))
+    (test "(= (truncate -5.5) -5.0)" '("#t"))
+    (test "(= (truncate -5.49) -5.0)" '("#t")))))
 
 ; TODO: tests for do
 ; TODO: tests for when
