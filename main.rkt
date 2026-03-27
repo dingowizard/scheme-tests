@@ -695,7 +695,7 @@
     (test "(abs 2.2)" '("2.2"))
     (test "(= 2 (round (* (sqrt 2) (sqrt 2))))" '("#t"))
     (test "(expt 2 10)" '("1024"))
-    (test "(= 5.0 (floor 5.2))" '("#t")) ; NOTE: tests of round and truncate are like this to avoid testing how printer formats floats
+    (test "(= 5.0 (floor 5.2))" '("#t")) ; NOTE: tests of floor, ceiling, round and truncate are like this to avoid testing how printer formats floats
     (test "(= -6.0 (floor -5.2))" '("#t"))
     (test "(= 6.0 (ceiling 5.2))" '("#t"))
     (test "(= -5.0 (ceiling -5.2))" '("#t"))
